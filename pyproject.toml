@@ -1,0 +1,27 @@
+[project]
+name = "de25-indira-hamburgarkartan"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Putu Indira Mahadiva Arysaputri", email = "indiramahadiva1@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "duckdb>=1.5.6",
+    "pandas>=3.0.6",
+    "requests>=2.34.2",
+]
+
+[project.scripts]
+de25-indira-hamburgarkartan = "de25_indira_hamburgarkartan:main"
+
+[build-system]
+requires = ["uv_build>=0.12.15,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.4.0",
+    "ruff>=0.16.10",
+]
