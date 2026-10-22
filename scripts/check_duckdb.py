@@ -4,11 +4,9 @@ import duckdb
 
 con = duckdb.connect("warehouse/hamburgarkartan.duckdb")
 # Open (or create) the database file in your warehouse folder.
-# Everything you run goes through this "con" connection.
 
 con.install_extension("spatial")
-# Download the spatial extension. It only actually downloads the first time;
-# later runs just see it's already there. Harmless to keep.
+# Download the spatial extension.
 
 con.load_extension("spatial")
 # Switch it on for this session. Without this, ST_Point etc. don't exist.
