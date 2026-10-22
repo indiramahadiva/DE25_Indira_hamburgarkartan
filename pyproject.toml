@@ -1,7 +1,7 @@
 [project]
 name = "de25-indira-hamburgarkartan"
 version = "0.1.0"
-description = "Add your description here"
+description = "Geospatial ELT-pipeline som mäter tillgängligheten till fyra hamburgarkedjor i Sverige"
 readme = "README.md"
 authors = [
     { name = "Putu Indira Mahadiva Arysaputri", email = "indiramahadiva1@gmail.com" }
@@ -9,20 +9,23 @@ authors = [
 requires-python = ">=3.13"
 dependencies = [
     "duckdb>=1.5.6",
-    "matplotlib>=3.11.2",
     "pandas>=3.0.6",
     "requests>=2.34.2",
 ]
 
 [project.scripts]
-de25-indira-hamburgarkartan = "de25_indira_hamburgarkartan:main"
+hamburgarkartan = "hamburgarkartan:main"
 
 [build-system]
 requires = ["uv_build>=0.12.15,<0.13.0"]
 build-backend = "uv_build"
 
+[tool.uv.build-backend]
+module-name = "hamburgarkartan"
+
 [dependency-groups]
 dev = [
     "ipykernel>=7.4.0",
+    "matplotlib>=3.11.2",
     "ruff>=0.16.10",
 ]
