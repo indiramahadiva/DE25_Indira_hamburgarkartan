@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: stg_scb__kommun_stats
+    description: One row per municipality with population, land area and density (SCB TAB628, 2025).
+    columns:
+      - name: kommun_code
+        description: Four-digit municipality code, stored as text (keeps the leading zero, e.g. 0180).
+        data_tests:
+          - unique
+          - not_null
+      - name: kommun_name
+        data_tests:
+          - not_null
+      - name: lan_code
+        description: Two-digit county code (first two digits of kommun_code).
+      - name: population
+        data_tests:
+          - not_null
+      - name: land_area_km2
+        data_tests:
+          - not_null

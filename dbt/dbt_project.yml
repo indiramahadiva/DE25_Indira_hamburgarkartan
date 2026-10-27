@@ -1,0 +1,28 @@
+name: hamburgarkartan
+version: "1.0.0"
+profile: hamburgarkartan
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+analysis-paths: ["analyses"]
+
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  hamburgarkartan:
+    staging:
+      +schema: staging # -> schema "staging" in DuckDB
+      +materialized: view # cheap, always up to date with raw
+    intermediate:
+      +schema: intermediate
+      +materialized: table # heavy spatial work, computed once
+    marts:
+      +schema: marts
+      +materialized: table # what the dashboard reads
+
+seeds:
+  hamburgarkartan:
+    +schema: seeds

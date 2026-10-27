@@ -224,3 +224,9 @@ data/raw/*
 !data/raw/.gitkeep
 warehouse/*.duckdb
 warehouse/*.duckdb.wal
+
+# dbt
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+dbt/.user.yml
