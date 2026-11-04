@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: dim_chain
+    description: One row per chain (McDonald's, Max, Burger King, Sibylla).
+    columns:
+      - name: chain
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_kommun
+    description: One row per municipality with SCB statistics and the border polygon (SWEREF 99 TM).
+    columns:
+      - name: kommun_code
+        data_tests:
+          - unique
+          - not_null
+      - name: geom
+        data_tests:
+          - not_null
+
+  - name: dim_restaurant
+    description: One row per open restaurant of the four chains, placed in a municipality.
+    columns:
+      - name: restaurant_id
+        data_tests:
+          - unique
+          - not_null
+      - name: chain
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_chain')
+                field: chain
+      - name: kommun_code
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_kommun')
+                field: kommun_code
+      - name: kommun_match
+        description: inside = point lies in the municipality, nearest = placed in the closest one (coast, pier).
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [inside, nearest]

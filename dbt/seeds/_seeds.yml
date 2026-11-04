@@ -1,0 +1,40 @@
+version: 2
+
+seeds:
+  - name: chains
+    description: The four hamburger chains and their Wikidata ids (found in notebook 01).
+    config:
+      column_types:
+        chain: varchar
+        chain_name: varchar
+        brand_wikidata: varchar
+        origin: varchar
+    columns:
+      - name: chain
+        data_tests:
+          - unique
+          - not_null
+      - name: brand_wikidata
+        data_tests:
+          - unique
+          - not_null
+      - name: origin
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [swedish, international]
+
+  - name: osm_manual_exclusions
+    description: OSM places that match a chain name but are not that chain (found in notebook 01).
+    config:
+      column_types:
+        osm_type: varchar
+        osm_id: bigint
+        reason: varchar
+    columns:
+      - name: osm_id
+        data_tests:
+          - not_null
+      - name: reason
+        data_tests:
+          - not_null

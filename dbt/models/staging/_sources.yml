@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: raw
+    description: Raw data loaded unchanged by the Python scripts in src/hamburgarkartan/.
+    schema: raw
+    tables:
+      - name: osm_food_places
+        description: Fast food places and restaurants in Sweden from the Geofabrik OSM extract (geofabrik.py).
+      - name: scb_grid_1km
+        description: Population per 1 km grid cell, 2025, SWEREF 99 TM (scb_grid.py).
+      - name: scb_kommun_stats
+        description: SCB table TAB628 – population, land area and density per region, 2025, long format (scb_pxweb.py).
+      - name: scb_deso
+        description: SCB DeSO areas 2025, used to build municipality borders (boundaries.py).

@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: int_kommun_boundaries
+    description: One polygon per municipality, merged from DeSO areas (SWEREF 99 TM).
+    columns:
+      - name: kommun_code
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_scb__kommun_stats')
+                field: kommun_code
+      - name: geom
+        data_tests:
+          - not_null

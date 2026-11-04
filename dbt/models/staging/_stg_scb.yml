@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: stg_scb__kommun_stats
+    description: One row per municipality with population, land area and density (SCB TAB628, 2025).
+    columns:
+      - name: kommun_code
+        description: Four-digit municipality code, stored as text (keeps the leading zero, e.g. 0180).
+        data_tests:
+          - unique
+          - not_null
+      - name: kommun_name
+        data_tests:
+          - not_null
+      - name: lan_code
+        description: Two-digit county code (first two digits of kommun_code).
+      - name: population
+        data_tests:
+          - not_null
+      - name: land_area_km2
+        data_tests:
+          - not_null
+
+  - name: stg_scb__grid_1km
+    description: One row per populated 1 km grid cell (SCB 2025), SWEREF 99 TM.
+    columns:
+      - name: cell_id
+        description: SCB's id for the cell.
+        data_tests:
+          - unique
+          - not_null
+      - name: cell_size_m
+        description: Side of the cell in meters.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [1000]
+                quote: false
+      - name: population
+        description: Registered population in the cell. Only cells with population > 0 are kept.
+        data_tests:
+          - not_null
+      - name: geom
+        description: The 1 x 1 km square.
+      - name: centroid
+        description: Middle point of the cell – distances are measured from here.
+
+  - name: stg_scb__deso
+    description: One row per DeSO area (SCB 2025), used only to build municipality borders.
+    columns:
+      - name: deso_code
+        data_tests:
+          - unique
+          - not_null
+      - name: kommun_code
+        description: Municipality the DeSO area belongs to.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_scb__kommun_stats')
+                field: kommun_code

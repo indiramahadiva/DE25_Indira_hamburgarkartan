@@ -1,0 +1,11 @@
+# Connection to the local DuckDB file. No passwords, so it is safe to commit.
+# Run dbt from inside the dbt/ folder – the path is relative to it.
+hamburgarkartan:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../warehouse/hamburgarkartan.duckdb
+      extensions:
+        - spatial
+      threads: 4
