@@ -46,3 +46,64 @@ models:
           - accepted_values:
               arguments:
                 values: [inside, nearest]
+
+  - name: fct_grid_accessibility
+    description: One row per populated 1 km cell with its municipality, population and distances (F1, F2, F4).
+    columns:
+      - name: cell_id
+        data_tests:
+          - unique
+          - not_null
+      - name: kommun_code
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_kommun')
+                field: kommun_code
+      - name: kommun_match
+        description: inside = cell centre lies in the municipality, nearest = centre in the sea, closest municipality used.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [inside, nearest]
+      - name: dist_any_m
+        data_tests:
+          - not_null
+      - name: nearest_chain
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_chain')
+                field: chain
+
+  - name: fct_kommun_accessibility
+    description: One row per municipality – distances, deserts, restaurants per inhabitant and dominant chain (F1–F4).
+    columns:
+      - name: kommun_code
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_kommun')
+                field: kommun_code
+      - name: pop_weighted_mean_dist_m
+        description: Average distance per person – sum(population x distance) / sum(population).
+        data_tests:
+          - not_null
+      - name: median_dist_m
+        description: Half of the municipality's people live closer than this.
+        data_tests:
+          - not_null
+      - name: restaurants_per_10k
+        data_tests:
+          - not_null
+      - name: dominant_chain
+        description: The chain that is nearest for the most people.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_chain')
+                field: chain
