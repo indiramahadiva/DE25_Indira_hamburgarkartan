@@ -15,3 +15,33 @@ models:
       - name: geom
         data_tests:
           - not_null
+
+  - name: int_grid_nearest_restaurant
+    description: >
+      Distance in meters from the centre of every populated 1 km cell to the
+      nearest restaurant, overall and per chain. Method A: every cell compared
+      with every restaurant.
+    columns:
+      - name: cell_id
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_scb__grid_1km')
+                field: cell_id
+      - name: dist_any_m
+        description: Distance to the nearest restaurant of any chain.
+        data_tests:
+          - not_null
+      - name: nearest_chain
+        description: Chain of the nearest restaurant.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_chain')
+                field: chain
+      - name: nearest_restaurant_id
+        data_tests:
+          - not_null
