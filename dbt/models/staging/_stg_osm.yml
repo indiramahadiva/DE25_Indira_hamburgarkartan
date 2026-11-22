@@ -4,13 +4,23 @@ models:
   - name: stg_osm__restaurants
     description: >
       One row per open restaurant of McDonald's, Max, Burger King and Sibylla,
-      as a point in SWEREF 99 TM. Built with the four-step matching rule.
+      as a point in SWEREF 99 TM. Built with the six-step matching rule:
+      OSM matches, minus manual exclusions and node/way duplicates,
+      plus restaurants added by hand after verification on Google Maps.
     columns:
       - name: restaurant_id
-        description: osm_type + "/" + osm_id, e.g. node/446048558.
+        description: >
+          osm_type + "/" + osm_id, e.g. node/446048558.
+          Restaurants added by hand get manual/<addition_id>.
         data_tests:
           - unique
           - not_null
+      - name: osm_type
+        description: node or way from OSM, or manual for added restaurants.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [node, way, relation, manual]
       - name: chain
         data_tests:
           - not_null
@@ -19,11 +29,13 @@ models:
                 to: ref('chains')
                 field: chain
       - name: matched_by
-        description: wikidata = matched on brand:wikidata, name_fallback = matched on brand/name.
+        description: >
+          wikidata = matched on brand:wikidata, name_fallback = matched on brand/name,
+          manual = added from the osm_manual_additions seed.
         data_tests:
           - accepted_values:
               arguments:
-                values: [wikidata, name_fallback]
+                values: [wikidata, name_fallback, manual]
       - name: geom
         description: Restaurant location as a point in EPSG:3006.
         data_tests:

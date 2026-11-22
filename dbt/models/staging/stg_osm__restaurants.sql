@@ -4,8 +4,9 @@
 --   2. no wikidata id -> match on brand/name, but not if it is a shop
 --   3. drop places that are not open yet ("opens ..." in the name)
 --   4. drop places in the manual exclusion list (seed)
---   5. drop duplicates: the same restaurant mapped twice in OSM
---      (e.g. as a point AND as the building) – same chain within 100 m
+--   5. add restaurants that are missing in OSM (seed, verified on Google Maps)
+--   6. drop duplicates: the same restaurant mapped both as a point (node)
+--      and as a building (way) within 100 m -> keep one
 
 with source as (
 
@@ -22,6 +23,12 @@ chains as (
 exclusions as (
 
     select * from {{ ref('osm_manual_exclusions') }}
+
+),
+
+additions as (
+
+    select * from {{ ref('osm_manual_additions') }}
 
 ),
 
@@ -64,15 +71,15 @@ matched as (
 
 ),
 
-matched_and_filtered as (
+from_osm as (
 
     select
-        osm_type || '/' || osm_id                            as restaurant_id,
+        osm_type || '/' || osm_id                        as restaurant_id,
         osm_type,
         osm_id,
-        coalesce(chain_by_id, chain_by_name)                 as chain,
+        coalesce(chain_by_id, chain_by_name)             as chain,
         case when chain_by_id is not null
-             then 'wikidata' else 'name_fallback' end        as matched_by,
+             then 'wikidata' else 'name_fallback' end    as matched_by,
         name,
         ST_Transform(ST_Point(lon, lat), 'EPSG:4326', 'EPSG:3006', always_xy := true) as geom
     from matched m
@@ -86,35 +93,39 @@ matched_and_filtered as (
 
 ),
 
-ranked as (
+duplicates as (
 
-    -- which copy to keep: wikidata match first, then the point (node), then lowest id
+    -- rule 6: a node and a way of the same chain within 100 m are one restaurant.
+    -- Keep the one matched on wikidata; if both are matched the same way, keep the node.
+    select distinct b.restaurant_id
+    from from_osm a
+    join from_osm b
+      on a.chain = b.chain
+     and a.osm_type != b.osm_type
+     and ST_DWithin(a.geom, b.geom, 100)
+    where (a.matched_by = 'wikidata' and b.matched_by != 'wikidata')
+       or (a.matched_by = b.matched_by and a.osm_type = 'node')
+
+),
+
+from_manual as (
+
+    -- rule 5: restaurants missing in OSM, checked by hand on Google Maps
     select
-        *,
-        case matched_by when 'wikidata' then 0 else 1 end as rank_match,
-        case osm_type   when 'node'     then 0 else 1 end as rank_type
-    from matched_and_filtered
+        'manual/' || addition_id                         as restaurant_id,
+        'manual'                                         as osm_type,
+        cast(null as bigint)                             as osm_id,
+        chain,
+        'manual'                                         as matched_by,
+        name,
+        ST_Transform(ST_Point(lon, lat), 'EPSG:4326', 'EPSG:3006', always_xy := true) as geom
+    from additions
 
 )
 
-select
-    a.restaurant_id,
-    a.osm_type,
-    a.osm_id,
-    a.chain,
-    a.matched_by,
-    a.name,
-    a.geom
-from ranked a
-where not exists (                                                                                 -- rule 5
-    select 1
-    from ranked b
-    where b.chain = a.chain
-      and b.restaurant_id != a.restaurant_id
-      and ST_DWithin(a.geom, b.geom, 100)
-      and (
-            b.rank_match < a.rank_match
-         or (b.rank_match = a.rank_match and b.rank_type < a.rank_type)
-         or (b.rank_match = a.rank_match and b.rank_type = a.rank_type and b.restaurant_id < a.restaurant_id)
-      )
-)
+select * from from_osm
+where restaurant_id not in (select restaurant_id from duplicates)
+
+union all
+
+select * from from_manual

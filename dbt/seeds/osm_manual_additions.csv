@@ -1,0 +1,29 @@
+addition_id,chain,name,lat,lon,opened,source
+1,burger_king,Burger King Kista Galleria,59.40287,17.94353,,Burger King locator + Google Maps verified 2026-11-21
+2,burger_king,Burger King Töcksfors,59.50712,11.84332,,Burger King locator + Google Maps verified 2026-11-21
+3,burger_king,Burger King Västerås Finnslätten,59.63257,16.58217,,Burger King locator + Google Maps verified 2026-11-21
+4,max,Max Arboga (Burskapsvägen 10),59.42854,15.83264,2025-05-28,max.se press release 2025-05-28 / Google Maps verified 2026-11-21
+5,max,Max Mariestad (Sydport),58.67572,13.81311,2026-11-18,Food Day Me 2026-11-18 / Arbetsförmedlingen job ad / Google Maps verified 2026-11-21
+6,mcdonalds,McDonald's Danderyd (Danderyds Centrum/Mörby),59.40103,18.04954,2026,Google Maps verified 2026-11-21
+7,mcdonalds,McDonald's Floda (Floda Entré),57.80329,12.36499,2026-11-12,Lokalpressen 2026-11 / Google Maps verified 2026-11-21
+8,mcdonalds,McDonald's Gislaved (Smålandiagatan 3),57.32175,13.54652,2025-11,Enter Gislaved 2025-11-27 / Google Maps verified 2026-11-21
+9,mcdonalds,McDonald's Uppsala Boländerna (Stångjärnsgatan 10),59.84639,17.68953,2025-12-17,UNT 2025-12 / Google Maps verified 2026-11-21
+10,sibylla,Sibylla Arlanda Terminal 5,59.70358,17.92671,2026-10,Travelreport 2026-10-10 / Google Maps verified 2026-11-21
+11,sibylla,Sibylla Eskilstuna Folkesta (Folkestaleden 40),59.40337,16.42345,,Google Maps verified 2026-11-22
+12,sibylla,Sibylla Gislaved (Ljungvägen 27),57.32038,13.54675,2026-08,Enter Gislaved 2026-08-27 / Google Maps verified 2026-11-21
+13,sibylla,Sibylla Jönköping Rosenlund,57.78551,14.23128,,Google Maps verified 2026-11-22
+14,sibylla,Sibylla Jönköping Solås,57.76273,14.18440,,Google Maps verified 2026-11-22
+15,sibylla,Sibylla Karlstad Skåre,59.42831,13.41361,,Google Maps verified 2026-11-22
+16,sibylla,Sibylla Kristinehamn (Spelmansgatan 22),59.30825,14.10916,,Google Maps verified 2026-11-22
+17,sibylla,Sibylla Köping Skoftesta (E18),59.51087,15.94444,,Google Maps verified 2026-11-22
+18,sibylla,Sibylla Lidköping (Bangatan 3),58.50459,13.16354,,Google Maps verified 2026-11-22
+19,sibylla,Sibylla Mora (Vasagatan 3),61.00925,14.56537,,Google Maps verified 2026-11-22
+20,sibylla,Sibylla Munkedal (Uddarne Industriväg 2),58.47801,11.65680,,Google Maps verified 2026-11-22
+21,sibylla,Sibylla Norrköping Wallmans Gatukök,58.59357,16.16849,,Google Maps verified 2026-11-22
+22,sibylla,Sibylla Orsa (Blästgatan 3),61.11737,14.62752,,Google Maps verified 2026-11-22
+23,sibylla,Sibylla Säffle (Kanaltorget),59.13298,12.92563,,Google Maps verified 2026-11-22
+24,sibylla,Sibylla Älandsbro,62.67476,17.83984,,Google Maps verified 2026-11-21
+25,sibylla,Sibylla Älvsbyn,65.67238,21.01158,,Google Maps verified 2026-11-21
+26,sibylla,Sibylla Ängelholm (Kullavägen 8),56.23626,12.85813,,Google Maps verified 2026-11-22
+27,sibylla,Sibylla Åstorp (Västra Vägen 10),56.13911,12.95058,,Google Maps verified 2026-11-22
+28,sibylla,Sibylla Örebro Rosängen,59.25091,15.19383,,Google Maps verified 2026-11-22
